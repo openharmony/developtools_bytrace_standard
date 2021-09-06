@@ -81,7 +81,7 @@ uint64_t GetSysParamTags()
         return 0;
     }
 
-    tags = IsAppValid() ? (tags | BYTRACE_TAG_APP) : (tags & (~BYTRACE_TAG_APP));
+    IsAppValid();
     return (tags | BYTRACE_TAG_ALWAYS) & BYTRACE_TAG_VALID_MASK;
 }
 

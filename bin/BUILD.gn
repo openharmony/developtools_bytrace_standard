@@ -68,6 +68,17 @@ ohos_executable("bytrace") {
   part_name = "bytrace_standard"
 }
 
+ohos_prebuilt_etc("bytrace.cfg") {
+  if (use_musl) {
+    source = "./config/bytrace.cfg"
+  } else {
+    source = "./config/bytrace.rc"
+  }
+  relative_install_dir = "init"
+  subsystem_name = "developtools"
+  part_name = "bytrace_standard"
+}
+
 group("bytrace_target") {
   deps = [ ":bytrace" ]
 }
