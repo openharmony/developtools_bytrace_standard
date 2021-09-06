@@ -14,89 +14,66 @@
  */
 
 /**
- * Provides interfaces to generate {@code ByTrace} logs.
+ * Provides interfaces to trace a task for performance measure, the logs can be capture by the
+ * bytrace cmdline available on the device.
  *
- * <p>This class traces the start, end, and value changes of key processes that last for at least 3 ms.
+ * <p>This interfaces trace the start, end, and value changes of key processes that last for at least 3 ms.
  *
  * <p>Example:
  * To trace a name verification that is expected to complete within 5 ms:
  * <pre>{@code
- * Bytrace.startTrace("checkName", "5");
- * Bytrace.finishTrace("checkName");
+ * bytrace.startTrace("checkName", 111, 5);
+ * //your process
+ * bytrace.finishTrace("checkName", 111);
  * }</pre>
  * To trace the number of layers, which is 3:
  * <pre>{@code
- * Bytrace.count("curLayer", 3);
+ * bytrace.traceByValue("curLayer", 3);
  * }</pre>
  *
- * <p>Each {@code startTrace} matches one {@code finishTrace}, and they must have the same value.
+ * <p>Each {@code startTrace} matches one {@code finishTrace}, and they must have the same name
+ * and taskId.
  *
- * @since 1
+ * @SysCap SystemCapability.Developtools.Bytrace
+ * @devices phone, tablet
+ * @since 7
  */
 declare namespace bytrace {
   /**
-   * Updates the trace label when your process has started.
-   */
-  function updateTraceLabel(): void;
-
-  /**
-   * Records a trace with the expected completion time and marks it as the start of a task.
+   * Records a trace marking it as the start of a task, can with the expected completion time between
+   * startTrace and finishTrace.
    *
-   * This method is invoked at the start of a transaction to indicate that a task whose name is specified by
-   * {@code value} has started. The {@link #finishTrace(String)} method using the same {@code value} must be
-   * invoked at the end of the transaction.
+   * This method is invoked at the start of a transaction to indicate that a task has started, whose name
+   * is specified by {@code name}, and the taskId is used to distinguish the tasks. It must be followed by
+   * {@link #finishTrace}, the name and taskId need to be the same.
    *
-   * @param value Indicates the operation name.
-   * @param limit Indicates the expected time required for completing the operation, in milliseconds.
+   * @param name Indicates the task name.
+   * @param taskId The unique id used to distinguish the tasks and match with the id in follow finishTrace.
+   * @param expectedTime Indicates the expected time required for completing the task, in milliseconds.
+   * @since 7
    */
-  function startTrace(value: string, limit: number): void;
-
-  /**
-   * Track the middle of a context. Match the previous function of StartTrace before it.
-   *
-   * @param beforeValue Indicates the matched startTrace vlaue.
-   * @param afterValue  Indicates the matched finishTrace value.
-   */
-  function middleTrace(beforeValue: string, afterValue: string): void;
+  function startTrace(name: string, taskId: number, expectedTime?: number): void;
 
   /**
    * Records a trace and marks it as the end of a task.
    *
-   * This method is invoked at the end of a transaction to indicate that a task whose name is specified by
-   * {@code value} has ended. This method must be invoked after the {@link #startTrace(String, float)} or
-   * {@link #startTrace(String)} method is invoked.
+   * This method is invoked at the end of a transaction to indicate that a task has ended, whose name
+   * is specified by {@code name}. This method must be invoked after the the startTrace.
    *
-   * @param value Indicates the operation name. It must be the same as the {@code value} of
-   * {@link #startTrace(String, float)} or {@link #startTrace(String)}.
-   *
+   * @param name Indicates the task name. It must be the same whith the {@code name} of startTrace.
+   * @param taskId The unique id used to distinguish the tasks and must be the same whith the .
+   * {@code taskId} of startTrace.
+   * @since 7
    */
-  function finishTrace(value: string): void;
-
-  /**
-   * Writes a async trace message and mark as start spot. The name and cookie
-   * used to begin an event must be used to end it.
-   *
-   * @param value Message content.
-   * @param taskId Unique identifier for distinguishing simultaneous events.
-   * @param limit It is expected that the operation will be completed within the specified time period.
-   */
-  function startAsyncTrace(value: string, taskId: number, limit: number): void;
-
-  /**
-   * Writes a async trace message and mark as start spot. The name and cookie
-   * used to begin an event must be used to end it.
-   *
-   * @param value Message content.
-   * @param taskId Unique identifier for distinguishing simultaneous events.
-   */
-  function finishAsyncTrace(value: string, taskId: number): void;
+  function finishTrace(name: string, taskId: number): void;
 
   /**
    * Records a trace for generating a count, such as clock pulse and the number of layers.
    *
-   * @param name Indicates the operation name.
-   * @param count Indicates the count of the operation.
+   * @param name Indicates the name used to identify the count.
+   * @param count Indicates the number of the count.
+   * @since 7
    */
-  function countTrace(name: string, count: number): void;
+  function traceByValue(name: string, count: number): void;
 }
 export default bytrace;

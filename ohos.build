@@ -4,7 +4,9 @@
     "bytrace_standard": {
       "module_list": [
         "//developtools/bytrace_standard/interfaces/innerkits/native:bytrace_core",
-        "//developtools/bytrace_standard/bin:bytrace_target"
+        "//developtools/bytrace_standard/bin:bytrace_target",
+        "//developtools/bytrace_standard/bin:bytrace.cfg",
+        "//developtools/bytrace_standard/interfaces/kits/js/napi:bytrace"
       ],
       "inner_kits": [
         {
