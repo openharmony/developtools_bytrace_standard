@@ -1,8 +1,36 @@
 {
-  "subsystem": "developtools",
-  "parts": {
-    "bytrace_standard": {
-      "module_list": [
+  "name": "@ohos/bytrace_standard",
+  "description": "A tool to trace processes and monitor performance",
+  "version": "3.1",
+  "license": "Apache License 2.0",
+  "publishAs": "code-segment",
+  "segment": {
+    "destPath": "developtools/bytrace_standard"
+  },
+  "dirs": {},
+  "scripts": {},
+  "component": {
+    "name": "bytrace_standard",
+    "subsystem": "developtools",
+    "adapted_system_type": [
+      "standard"
+    ],
+    "rom": "114KB",
+    "ram": "720KB",
+    "deps": {
+      "components": [
+        "hilog",
+        "syspara",
+        "syspara_watchagent",
+        "ipc",
+        "utils_base"
+      ],
+      "third_party": [
+        "zlib"
+      ]
+    },
+    "build": {
+      "sub_component": [
         "//developtools/bytrace_standard/interfaces/innerkits/native:bytrace_core",
         "//developtools/bytrace_standard/bin:bytrace_target",
         "//developtools/bytrace_standard/bin:bytrace.cfg",
@@ -20,7 +48,7 @@
           }
         }
       ],
-       "test_list": [
+      "test": [
         "//developtools/bytrace_standard/bin/test:unittest"
       ]
     }
