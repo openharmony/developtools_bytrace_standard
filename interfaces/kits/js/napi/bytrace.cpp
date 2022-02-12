@@ -18,12 +18,7 @@
 #include <string>
 #include <hilog/log.h>
 #include "bytrace.h"
-#include "napi/native_api.h"
-#include "napi/native_node_api.h"
-
-EXTERN_C_START
-extern napi_value BytraceInit(napi_env env, napi_value exports);
-EXTERN_C_END
+#include "declare_napi.h"
 
 /*
  * bytrace module definition

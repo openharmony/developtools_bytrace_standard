@@ -13,6 +13,8 @@
  * limitations under the License.
  */
 
+#include "declare_napi.h"
+
 #include <cstdio>
 #include <cstdlib>
 #include <string>
@@ -27,7 +29,7 @@ constexpr int ARGC_NUMBER_TWO = 2;
 constexpr int NAME_MAX_SIZE = 1024;
 }
 
-extern napi_value JSTraceStart(napi_env env, napi_callback_info info)
+static napi_value JSTraceStart(napi_env env, napi_callback_info info)
 {
     constexpr int ARGC_NUMBER_THREE = 3;
     size_t argc = ARGC_NUMBER_THREE;
@@ -60,7 +62,7 @@ extern napi_value JSTraceStart(napi_env env, napi_callback_info info)
     return nullptr;
 }
 
-extern napi_value JSTraceFinish(napi_env env, napi_callback_info info)
+static napi_value JSTraceFinish(napi_env env, napi_callback_info info)
 {
     size_t argc = ARGC_NUMBER_TWO;
     napi_value argv[ARGC_NUMBER_TWO];
@@ -84,7 +86,7 @@ extern napi_value JSTraceFinish(napi_env env, napi_callback_info info)
     return nullptr;
 }
 
-extern napi_value JSTraceCount(napi_env env, napi_callback_info info)
+static napi_value JSTraceCount(napi_env env, napi_callback_info info)
 {
     size_t argc = ARGC_NUMBER_TWO;
     napi_value argv[ARGC_NUMBER_TWO];
@@ -112,7 +114,7 @@ EXTERN_C_START
 /*
  * function for module exports
  */
-extern napi_value BytraceInit(napi_env env, napi_value exports)
+napi_value BytraceInit(napi_env env, napi_value exports)
 {
     static napi_property_descriptor desc[] = {
         DECLARE_NAPI_FUNCTION("startTrace", JSTraceStart),
