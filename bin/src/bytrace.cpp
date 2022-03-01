@@ -170,6 +170,10 @@ static bool IsTagSupported(const string& name)
 
 static string CanonicalizeSpecPath(const char* src)
 {
+    if (src == nullptr || strlen(src) >= PATH_MAX) {
+        fprintf(stderr, "Error: CanonicalizeSpecPath %s failed", src);
+        return "";
+    }
     char resolvedPath[PATH_MAX] = { 0 };
 #if defined(_WIN32)
     if (!_fullpath(resolvedPath, src, PATH_MAX)) {
@@ -179,11 +183,18 @@ static string CanonicalizeSpecPath(const char* src)
 #else
     if (access(src, F_OK) == 0) {
         if (realpath(src, resolvedPath) == nullptr) {
-            fprintf(stderr, "Error: _fullpath %s failed\n", src);
+            fprintf(stderr, "Error: realpath %s failed", src);
             return "";
         }
     } else {
-        if (sprintf_s(resolvedPath, PATH_MAX, "%s", src) == -1) {
+        string fileName(src);
+        if (fileName.find("..") == string::npos) {
+            if (sprintf_s(resolvedPath, PATH_MAX, "%s", src) == -1) {
+                fprintf(stderr, "Error: sprintf_s %s failed", src);
+                return "";
+            }
+        } else {
+            fprintf(stderr, "Error: find .. %s failed", src);
             return "";
         }
     }
