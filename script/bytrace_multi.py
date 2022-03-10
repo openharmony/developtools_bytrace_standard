@@ -39,8 +39,8 @@ def read_files(file, devices_name):
                 if trace_match:
                     traces.append((float(trace_match.group(5)), line))
                 if line.find("realtime_ts") > -1:
-                    time_regex = trace_regex + \
-                        "tracing_mark_write:\s+trace_event_clock_sync: realtime_ts=(.*)"
+                    time_regex = "{}{}".format(trace_regex, \
+                        "tracing_mark_write:\s+trace_event_clock_sync: realtime_ts=(.*)")
                     time_match = re.match(time_regex, line)
                     all_real_time_dict[devices_name] = { \
                         "realtime_ts": int(time_match.group(6)), \
@@ -130,7 +130,7 @@ def main():
     # Sort by timestamp from small to large
     all_trace_sorted_list = sorted(all_trace_list, key=lambda x: x[0])
     curtime = time.strftime("%Y%m%d_%H%M%S", time.localtime())
-    write_to_file(all_trace_sorted_list, "multi_trace_"+str(curtime)+".ftrace")
+    write_to_file(all_trace_sorted_list, "multi_trace_{}.ftrace".format(str(curtime)))
 
 if __name__ == '__main__':
     main()
