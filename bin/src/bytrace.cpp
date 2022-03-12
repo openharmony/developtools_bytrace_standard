@@ -420,7 +420,7 @@ static void ParseLongOpt(const string& cmd, int optionIndex, bool& isTrue)
         struct stat buf;
         size_t len = strnlen(optarg, MAX_OUTPUT_LEN);
         if (len == MAX_OUTPUT_LEN || len < 1 ||
-            (stat(optarg, &buf) == 0 && (buf.st_mode & S_IFDIR) != 0)) {
+            (stat(optarg, &buf) == 0 && (buf.st_mode & S_IFDIR))) {
             fprintf(stderr, "Error: output file is illegal\n");
             isTrue = false;
         } else {
@@ -480,7 +480,7 @@ static bool ParseOpt(int opt, char** argv, int optIndex)
             struct stat buf;
             size_t len = strnlen(optarg, MAX_OUTPUT_LEN);
             if (len == MAX_OUTPUT_LEN || len < 1 ||
-                (stat(optarg, &buf) == 0 && (buf.st_mode & S_IFDIR) != 0)) {
+                (stat(optarg, &buf) == 0 && (buf.st_mode & S_IFDIR))) {
                 fprintf(stderr, "Error: output file is illegal\n");
                 isTrue = false;
             } else {
@@ -844,7 +844,7 @@ static void InitAllSupportTags()
     g_tagMap["ark"] = { "ark", "ARK Module", BYTRACE_TAG_ARK, USER, {}};
     g_tagMap["window"] = { "window", "Window Manager", BYTRACE_TAG_WINDOW_MANAGER, USER, {}};
     g_tagMap["app"] = { "app", "APP Module", BYTRACE_TAG_APP, USER, {}};
-    g_tagMap["zbinder"] = { "zbinder", "Harmony binder communication", 0, KERNEL, {
+    g_tagMap["zbinder"] = { "zbinder", "OpenHarmony binder communication", 0, KERNEL, {
         { "events/zbinder/enable" },
     }};
 
