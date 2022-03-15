@@ -1,4 +1,4 @@
-# bytrace<a name="EN-US_TOPIC_0000001102209942"></a>
+# ByTrace<a name="EN-US_TOPIC_0000001102209942"></a>
 
 -   [Introduction](#section152771918494)
 -   [Architecture](#section6808195518497)
@@ -8,10 +8,10 @@
 
 ## Introduction<a name="section152771918494"></a>
 
-bytrace is a tool for you to trace processes and monitor performance. It encapsulates and extends the ftrace in the kernel and supports tracing in the user space. This tool provides APIs and commands:
+ByTrace is a tool for you to trace processes and monitor performance. It encapsulates and extends the ftrace in the kernel and supports tracing in the user space. This tool provides APIs and commands:
 
-1.  APIs: When developing an application, you can call bytrace APIs in the application key code to perform tracing.
-2.  Commands: You can enable the desired label to obtain the tracing information. With bytrace, you can enable a user-space or kernel-space label you want to view (run the **bytrace -l** command to query all the supported labels) and run the corresponding commands to capture traces and dump them to a specified file.
+1.  APIs: When developing an application, you can call ByTrace APIs in the application key code to perform tracing.
+2.  Commands: You can enable the desired label to obtain the tracing information. With ByTrace, you can enable a user-space or kernel-space label you want to view (run the **bytrace -l** command to query all the supported labels) and run the corresponding commands to capture traces and dump them to a specified file.
 
 ## Architecture<a name="section6808195518497"></a>
 
@@ -21,7 +21,7 @@ bytrace is a tool for you to trace processes and monitor performance. It encapsu
 
 ```
 /developtools/bytrace_standard
-├── bin           # bytrace code
+├── bin           # ByTrace code
 │   └── include   # Header files
 │   └── src       # Source files
 │   └── test      # Test cases
@@ -33,9 +33,9 @@ bytrace is a tool for you to trace processes and monitor performance. It encapsu
 
 ## Usage<a name="section18684185975017"></a>
 
-The following table lists the commands supported by bytrace.
+The following table lists the commands supported by ByTrace.
 
-** Table 1** Commands supported by bytrace
+** Table 1** Commands supported by ByTrace
 
 <a name="table16802195914247"></a>
 <table><thead align="left"><tr id="row14804759142412"><th class="cellrowborder" valign="top" width="50%" id="mcps1.2.3.1.1"><p id="p1280465972411"><a name="p1280465972411"></a><a name="p1280465972411"></a>Option</p>
@@ -56,7 +56,7 @@ The following table lists the commands supported by bytrace.
 </tr>
 <tr id="row580519592245"><td class="cellrowborder" valign="top" width="50%" headers="mcps1.2.3.1.1 "><p id="p880510591241"><a name="p880510591241"></a><a name="p880510591241"></a>-t <em id="i8668143912203"><a name="i8668143912203"></a><a name="i8668143912203"></a>n</em>, --time <em id="i841433614202"><a name="i841433614202"></a><a name="i841433614202"></a>n</em></p>
 </td>
-<td class="cellrowborder" valign="top" width="50%" headers="mcps1.2.3.1.2 "><p id="p1480517591245"><a name="p1480517591245"></a><a name="p1480517591245"></a>Sets the bytrace uptime in seconds, which depends on the time required for analysis.</p>
+<td class="cellrowborder" valign="top" width="50%" headers="mcps1.2.3.1.2 "><p id="p1480517591245"><a name="p1480517591245"></a><a name="p1480517591245"></a>Sets the ByTrace uptime in seconds, which depends on the time required for analysis.</p>
 </td>
 </tr>
 <tr id="row4806175913247"><td class="cellrowborder" valign="top" width="50%" headers="mcps1.2.3.1.1 "><p id="p980655912242"><a name="p980655912242"></a><a name="p980655912242"></a>--trace_clock <em id="i19464452217"><a name="i19464452217"></a><a name="i19464452217"></a>clock</em></p>
@@ -81,7 +81,7 @@ The following table lists the commands supported by bytrace.
 </tr>
 <tr id="row2809185972420"><td class="cellrowborder" valign="top" width="50%" headers="mcps1.2.3.1.1 "><p id="p2080925922418"><a name="p2080925922418"></a><a name="p2080925922418"></a>-l, --list_categories</p>
 </td>
-<td class="cellrowborder" valign="top" width="50%" headers="mcps1.2.3.1.2 "><p id="p38091159142414"><a name="p38091159142414"></a><a name="p38091159142414"></a>Lists the bytrace categories supported by the device.</p>
+<td class="cellrowborder" valign="top" width="50%" headers="mcps1.2.3.1.2 "><p id="p38091159142414"><a name="p38091159142414"></a><a name="p38091159142414"></a>Lists the ByTrace categories supported by the device.</p>
 </td>
 </tr>
 <tr id="row1880912598248"><td class="cellrowborder" valign="top" width="50%" headers="mcps1.2.3.1.1 "><p id="p1681014595244"><a name="p1681014595244"></a><a name="p1681014595244"></a>--overwrite</p>
@@ -102,7 +102,7 @@ The following table lists the commands supported by bytrace.
 </tbody>
 </table>
 
-The following are some example bytrace commands:
+The following are some example ByTrace commands:
 
 -   Run the following command to query supported labels:
 
@@ -117,7 +117,7 @@ The following are some example bytrace commands:
     ```
 
 
--   Run the following command to capture traces whose label is <strong>ability</strong>, with the buffer size set to 4096 KB and bytrace uptime set to 10s:
+-   Run the following command to capture traces whose label is <strong>ability</strong>, with the buffer size set to 4096 KB and ByTrace uptime set to 10s:
 
     ```
     bytrace -b 4096 -t 10 --overwrite ability > /data/mytrace.ftrace
