@@ -80,7 +80,10 @@ bool g_compress = false;
 
 string g_traceRootPath;
 
-bool g_traceStart = true;
+const unsigned int START_NONE = 0;
+const unsigned int START_NORMAL = 1;
+const unsigned int START_ASYNC = 2;
+unsigned int g_traceStart = START_NORMAL;
 bool g_traceStop = true;
 bool g_traceDump = true;
 
@@ -436,15 +439,15 @@ static void ParseLongOpt(const string& cmd, int optionIndex, bool& isTrue)
     } else if (!strcmp(g_longOptions[optionIndex].name, "overwrite")) {
         g_overwrite = false;
     } else if (!strcmp(g_longOptions[optionIndex].name, "trace_begin")) {
-        g_traceStart = true;
+        g_traceStart = START_ASYNC;
         g_traceStop = false;
         g_traceDump = false;
     } else if (!strcmp(g_longOptions[optionIndex].name, "trace_finish")) {
-        g_traceStart = false;
+        g_traceStart = START_NONE;
         g_traceStop = true;
         g_traceDump = true;
     } else if (!strcmp(g_longOptions[optionIndex].name, "trace_dump")) {
-        g_traceStart = false;
+        g_traceStart = START_NONE;
         g_traceStop = false;
         g_traceDump = true;
     }
@@ -561,11 +564,15 @@ static bool StartTrace()
     ClearTrace();
     printf("capturing trace...\n");
     fflush(stdout);
+    return true;
+}
+
+static void WaitForTraceDone(void)
+{
     struct timespec ts = {0, 0};
     ts.tv_sec = g_traceDuration;
     ts.tv_nsec = 0;
     while ((nanosleep(&ts, &ts) == -1) && (errno == EINTR)) {}
-    return true;
 }
 
 static bool StopTrace()
@@ -895,9 +902,13 @@ int main(int argc, char **argv)
     }
 
     bool isTrue = true;
-    if (g_traceStart) {
+    if (g_traceStart != START_NONE) {
         SetViewStyle();
         isTrue = isTrue && StartTrace();
+        if (g_traceStart == START_ASYNC) {
+            return isTrue ? 0 : -1;
+        }
+        WaitForTraceDone();
     }
 
     isTrue = isTrue && MarkOthersClockSync();
